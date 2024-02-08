@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "TinyChords",
-    "slug": "TinyChords",
+    "name": "QChords",
+    "slug": "QChords",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
