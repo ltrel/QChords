@@ -4,7 +4,7 @@ import { useState } from "react";
 import NaturalSign from "./assets/NaturalSign.svg"
 import Sharp from "./assets/Sharp.svg"
 import Flat from "./assets/Flat.svg"
-import { Chord } from "./Chord";
+import { Chord, Note } from "./Chord";
 
 const chordTypes = [
   "maj",
@@ -48,15 +48,19 @@ const accidentals = ['b', 'n', '#']
 export interface ChordPickerProps {
   onCancel: () => void;
   onClear: () => void;
-  onSet: () => void;
+  onSet: (Chord) => void;
   current: Chord;
 }
 export default function ChordPicker({onCancel, onClear, onSet, current}: ChordPickerProps) {
-
   const [accidentalIndex, setAccidentalIndex] = useState(current.root.accidentalIndex);
   const [letterIndex, setLetterIndex] = useState(current.root.letterIndex);
   const [chordTypeIndex, setChordTypeIndex] = useState(chordTypes.indexOf(current.chordType));
 
+  function handleSet() {
+    const root = new Note(letterIndex, accidentalIndex);
+    const chord = new Chord(root, chordTypes[chordTypeIndex]);
+    onSet(chord);
+  }
 
   function renderAccidentalSvg(accidentalStr, color)
   {
@@ -116,7 +120,7 @@ export default function ChordPicker({onCancel, onClear, onSet, current}: ChordPi
         <View style={{flexDirection: 'row', gap: 5}}>
           <TextButton title="Cancel" onPress={onCancel} pressableStyle={{flexGrow: 1}}/>
           <TextButton title="Clear" onPress={onClear} pressableStyle={{flexGrow: 1}}/>
-          <TextButton title="Ok" onPress={onSet} pressableStyle={{flexGrow: 1}}/>
+          <TextButton title="Ok" onPress={handleSet} pressableStyle={{flexGrow: 1}}/>
         </View>
       </Pressable>
     </Pressable>
