@@ -42,37 +42,64 @@ const chordTypes = [
   "majadd9",
   "minadd9",
 ]
-
-const accidentals = ['b', 'n', '#']
+const accidentalDimensions = {
+  width: 40,
+  height: 40,
+}
+const accidentals = [
+  {
+    Svg: Flat,
+    svgProps: {
+      ...accidentalDimensions,
+      viewBox: "0 0 4 13"
+    }
+  },
+  {
+    Svg: NaturalSign,
+    svgProps: {
+      ...accidentalDimensions,
+      viewBox: "0 0 27 108"
+    }
+  },
+  {
+    Svg: Sharp,
+    svgProps: {
+      ...accidentalDimensions,
+      viewBox: "0 0 6 19"
+    }
+  }
+]
 
 export interface ChordPickerProps {
   onCancel: () => void;
   onClear: () => void;
   onSet: (Chord) => void;
-  current: Chord;
+  initialChord: Chord;
 }
-export default function ChordPicker({onCancel, onClear, onSet, current}: ChordPickerProps) {
-  const [accidentalIndex, setAccidentalIndex] = useState(current.root.accidentalIndex);
-  const [letterIndex, setLetterIndex] = useState(current.root.letterIndex);
-  const [chordTypeIndex, setChordTypeIndex] = useState(chordTypes.indexOf(current.chordType));
+export default function ChordPicker({onCancel, onClear, onSet, initialChord}: ChordPickerProps) {
+  const initialState = (() => {
+    if (initialChord) {
+      return {
+        accidentalIndex: initialChord.root.accidentalIndex,
+        letterIndex: initialChord.root.letterIndex,
+        chordTypeIndex: chordTypes.indexOf(initialChord.chordType)
+      }
+    }
+    return {
+      accidentalIndex: 1,
+      letterIndex: 0,
+      chordTypeIndex: 0
+    }
+  })()
+  
+  const [accidentalIndex, setAccidentalIndex] = useState(initialState.accidentalIndex);
+  const [letterIndex, setLetterIndex] = useState(initialState.letterIndex);
+  const [chordTypeIndex, setChordTypeIndex] = useState(initialState.chordTypeIndex);
 
   function handleSet() {
     const root = new Note(letterIndex, accidentalIndex);
     const chord = new Chord(root, chordTypes[chordTypeIndex]);
     onSet(chord);
-  }
-
-  function renderAccidentalSvg(accidentalStr, color)
-  {
-    const commonProps = {width: 40, height: 40, fill: color}
-    switch (accidentalStr) {
-      case 'b':
-        return <Flat viewBox="0 0 4 13" {...commonProps}/>
-      case 'n':
-        return <NaturalSign viewBox="0 0 27 108" {...commonProps}/>
-      case '#':
-        return <Sharp viewBox="0 0 6 19" {...commonProps}/>
-    }
   }
 
   return (
@@ -83,10 +110,11 @@ export default function ChordPicker({onCancel, onClear, onSet, current}: ChordPi
             return (
               <SvgButton
                 key={index}
-                invert={index == accidentalIndex}
+                active={index == accidentalIndex}
                 pressableStyle={{flexGrow: 1}}
                 onPress={() => setAccidentalIndex(index)}
-                svg={renderAccidentalSvg(accidental, index == accidentalIndex ? 'white' : 'black')}
+                Svg={accidental.Svg}
+                svgProps={accidental.svgProps}
               />
             )
           })}
@@ -98,7 +126,7 @@ export default function ChordPicker({onCancel, onClear, onSet, current}: ChordPi
                 key={letter}
                 title={letter}
                 pressableStyle={{borderRadius: 0, flexGrow: 1}}
-                invert={index == letterIndex}
+                active={index == letterIndex}
                 onPress={() => setLetterIndex(index)}
               />
             )
@@ -111,7 +139,7 @@ export default function ChordPicker({onCancel, onClear, onSet, current}: ChordPi
                 key={chord}
                 title={chord}
                 pressableStyle={{borderRadius: 0, flexGrow: index == chordTypes.length - 1 ? 0 : 1}}
-                invert={index == chordTypeIndex}
+                active={index == chordTypeIndex}
                 onPress={() => setChordTypeIndex(index)}
               />
             )

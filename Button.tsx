@@ -1,24 +1,34 @@
-import { Pressable, Text, StyleSheet, ViewStyle, StyleProp, TextStyle } from "react-native";
+import React from "react";
+import { Pressable, Text, StyleSheet, ViewStyle, StyleProp, TextStyle, View } from "react-native";
+import { SvgProps } from "react-native-svg";
+
+function mergePressableStyles(active: boolean, pressed: boolean, overrides: StyleProp<ViewStyle>): StyleProp<ViewStyle> {
+  if (active) {
+    return [styles.buttonPressable, {backgroundColor: 'black'}, overrides]
+  }
+  else if (pressed) {
+    return [styles.buttonPressable, {backgroundColor: '#e6e6e6'}, overrides]
+  }
+  else {
+    return [styles.buttonPressable, overrides]
+  }
+}
 
 export interface TextButtonProps {
   onPress?: () => void;
   title?: string;
-  invert?: boolean;
+  active?: boolean;
   pressableStyle?: StyleProp<ViewStyle>,
   textStyle?: StyleProp<TextStyle>,
 }
-export function TextButton({onPress, title, invert, pressableStyle, textStyle}: TextButtonProps) {
-  const mergedPressableStyle: StyleProp<ViewStyle> = [
-    styles.buttonPressable,
-    invert ? {backgroundColor: 'black'} : {},
-    pressableStyle,
-  ]
+export function TextButton({onPress, title, active, pressableStyle, textStyle}: TextButtonProps) {
   const mergedTextStyle: StyleProp<TextStyle> = [
-    invert ? {color: 'white'} : {},
+    active ? {color: 'white'} : {},
     textStyle,
   ]
+
   return (
-    <Pressable onPress={onPress} style={mergedPressableStyle}>
+    <Pressable onPress={onPress} style={({pressed}) => mergePressableStyles(active, pressed, pressableStyle)}>
       <Text style={mergedTextStyle}>{title}</Text>
     </Pressable>
   )
@@ -26,21 +36,17 @@ export function TextButton({onPress, title, invert, pressableStyle, textStyle}: 
 
 export interface SvgButtonProps {
   onPress?: () => void;
-  svg?: any;
-  invert?: boolean;
+  Svg?: React.FC<SvgProps>;
+  svgProps?: SvgProps;
+  active?: boolean;
   pressableStyle?: StyleProp<ViewStyle>,
   textStyle?: StyleProp<TextStyle>,
 }
-export function SvgButton({onPress, svg,  invert,  pressableStyle }: SvgButtonProps)
+export function SvgButton({onPress, Svg, svgProps, active, pressableStyle}: SvgButtonProps)
 {
-  const mergedPressableStyle: StyleProp<ViewStyle> = [
-    styles.buttonPressable,
-    invert ? {backgroundColor: 'black'} : {},
-    pressableStyle,
-  ]
   return (
-   <Pressable onPress={onPress} style={mergedPressableStyle}>
-    {svg}
+   <Pressable onPress={onPress} style={({pressed}) => mergePressableStyles(active, pressed, pressableStyle)}>
+    <Svg fill={active ? 'white' : 'black'} {...svgProps}/>
    </Pressable> 
   )
 }

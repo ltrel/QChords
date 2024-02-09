@@ -22,7 +22,6 @@ const initialMeasures: Chord[][] = [
 export default function ChordChart() {
   const [measures, setMeasures] = useState(initialMeasures);
   const [selectedPos, setSelectedPos] = useState<[number, number]>(null);
-  const showPicker: boolean = !!(selectedPos && measures[selectedPos[0]][selectedPos[1]]);
 
   function logChord(measureIndex, beatIndex) {
     console.log(measures[measureIndex][beatIndex]) 
@@ -44,7 +43,7 @@ export default function ChordChart() {
       </View>
       <Modal
         animationType='fade'
-        visible={showPicker}
+        visible={!!selectedPos}
         transparent
         onRequestClose={() => setSelectedPos(null)}
         statusBarTranslucent
@@ -53,7 +52,7 @@ export default function ChordChart() {
           onCancel={() => setSelectedPos(null)}   
           onClear={() => {updateChord(selectedPos[0], selectedPos[1]); setSelectedPos(null)}}   
           onSet={(newChord) => {updateChord(selectedPos[0], selectedPos[1], newChord); setSelectedPos(null)}}   
-          current={measures[selectedPos[0]][selectedPos[1]]}
+          initialChord={measures[selectedPos[0]][selectedPos[1]]}
         />}
       </Modal>
     </>
