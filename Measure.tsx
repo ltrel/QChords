@@ -1,15 +1,25 @@
-import { View, Text, Pressable, StyleSheet } from "react-native";
+import { View, Text, Pressable, StyleSheet, StyleProp, ViewStyle } from "react-native";
 import ChordSymbol from "./ChordSymbol";
 import { Chord } from "./Chord";
 
 export interface MeasureProps {
   chords: Chord[];
+  highlightBeat?: number;
   onTouch?: (beatIndex) => void;
 }
-export default function Measure({ chords, onTouch }: MeasureProps) {
+export default function Measure({ chords, highlightBeat = -1, onTouch }: MeasureProps) {
+  function createBeatStyle(active, pressed): StyleProp<ViewStyle> {
+    return {
+      display: 'flex',
+      minWidth: 35,
+      flexGrow: 1,
+      backgroundColor: active || pressed ? '#dddddd' : undefined,
+    }
+  }
+
   const beats = chords.map((chord, i) => {
     return (
-      <Pressable key={i} style={{display: "flex", minWidth: 35, flexGrow: 1}} onPress={() => onTouch(i)}>
+      <Pressable key={i} style={({pressed}) => createBeatStyle(i === highlightBeat, pressed)} onPress={() => onTouch(i)}>
         <ChordSymbol chord={chord}/>
         <Text style={{fontSize: 32, marginTop: -10}}>𝄍</Text>
       </Pressable>

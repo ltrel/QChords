@@ -38,7 +38,12 @@ export default function ChordChart() {
     <>
       <View style={{display: "flex", flexDirection: "row", flexWrap: "wrap", alignSelf: 'stretch', rowGap: 10}}>
         {measures.map((measure, i) => {
-          return <Measure key={i} chords={measure} onTouch={(beatIndex) => logChord(i, beatIndex)}/>
+          return <Measure
+            key={i}
+            chords={measure}
+            onTouch={(beatIndex) => logChord(i, beatIndex)}
+            highlightBeat={selectedPos && i === selectedPos[0] ? selectedPos[1] : undefined}
+          />
         })}
       </View>
       <Modal
