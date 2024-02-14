@@ -40,6 +40,6 @@ const styles = StyleSheet.create({
     borderRightWidth: 2,
     marginLeft: -1,
     marginRight: -1,
-    paddingHorizontal: 2
+    paddingHorizontal: 2,
   }
 })

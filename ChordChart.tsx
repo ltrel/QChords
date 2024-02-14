@@ -1,26 +1,14 @@
-import { Modal, View } from 'react-native';
+import { Modal, View, ScrollView } from 'react-native';
 import Measure from './Measure';
-import { Chord, Note } from './Chord';
+import { Chord } from './Chord';
 import { useState } from 'react';
 import ChordPicker from './ChordPicker';
 
-const initialMeasures: Chord[][] = [
-  [
-    new Chord(Note.fromStr("C"), "min7"),
-    new Chord(Note.fromStr("F"),  "dom7"),
-    new Chord(Note.fromStr("Bb"), "maj7"),
-    new Chord(Note.fromStr("G"), "dom7"),
-  ],
-  [
-    new Chord(Note.fromStr("A"), "min7"),
-    new Chord(Note.fromStr("D"),  "dom7"),
-    new Chord(Note.fromStr("G"), "maj7"),
-    null
-  ]
-]
-
-export default function ChordChart() {
-  const [measures, setMeasures] = useState(initialMeasures);
+export interface ChordChartProps {
+  measures: Chord[][];
+  onUpdateChord: (measureIndex: number, beatIndex: number, newChord: Chord) => void;
+}
+export default function ChordChart({measures, onUpdateChord}: ChordChartProps) {
   const [selectedPos, setSelectedPos] = useState<[number, number]>(null);
 
   function logChord(measureIndex, beatIndex) {
@@ -28,24 +16,25 @@ export default function ChordChart() {
     setSelectedPos([measureIndex, beatIndex])
   }
 
-  function updateChord(measureIndex, beatIndex, newChord = null) {
-    const newMeasures = [...measures];
-    newMeasures[measureIndex][beatIndex] = newChord;
-    setMeasures(newMeasures);
-  }
-
   return (
     <>
-      <View style={{display: "flex", flexDirection: "row", flexWrap: "wrap", alignSelf: 'stretch', rowGap: 10}}>
-        {measures.map((measure, i) => {
-          return <Measure
-            key={i}
-            chords={measure}
-            onTouch={(beatIndex) => logChord(i, beatIndex)}
-            highlightBeat={selectedPos && i === selectedPos[0] ? selectedPos[1] : undefined}
-          />
-        })}
-      </View>
+      <ScrollView>
+        {/* Need padding to stop the negative margins coming out of the measures being cut off */}
+        <View style={{display: "flex", flexDirection: "row", flexWrap: "wrap", alignSelf: 'stretch', rowGap: 10, paddingHorizontal: 1}}>
+          {measures.map((measure, i) => {
+            return (
+              // Removing this seemingly pointless View causes the height of the ChordChart to double
+              <View style={{flexGrow: 1}} key={i}>
+                <Measure
+                  chords={measure}
+                  onTouch={(beatIndex) => logChord(i, beatIndex)}
+                  highlightBeat={selectedPos && i === selectedPos[0] ? selectedPos[1] : undefined}
+                />
+              </View>
+            )
+          })}
+        </View>
+      </ScrollView>
       <Modal
         animationType='fade'
         visible={!!selectedPos}
@@ -55,8 +44,8 @@ export default function ChordChart() {
       >
         {selectedPos && <ChordPicker
           onCancel={() => setSelectedPos(null)}   
-          onClear={() => {updateChord(selectedPos[0], selectedPos[1]); setSelectedPos(null)}}   
-          onSet={(newChord) => {updateChord(selectedPos[0], selectedPos[1], newChord); setSelectedPos(null)}}   
+          onClear={() => {onUpdateChord(selectedPos[0], selectedPos[1], null); setSelectedPos(null)}}   
+          onSet={(newChord) => {onUpdateChord(selectedPos[0], selectedPos[1], newChord); setSelectedPos(null)}}   
           initialChord={measures[selectedPos[0]][selectedPos[1]]}
         />}
       </Modal>
