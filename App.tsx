@@ -1,6 +1,7 @@
 import { StatusBar } from 'expo-status-bar';
 import { useState } from 'react';
 import { StyleSheet, View, Text } from 'react-native';
+import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import ChordChart from './ChordChart';
 //import { jsonToBin } from 'tiny-chords/dist/nowasm';
 import { TextButton } from './Button';
@@ -40,18 +41,20 @@ export default function App() {
   }
 
   return (
-    <View style={styles.container}>
-      <StatusBar style="auto" />
-      <View style={{flex: 1, marginHorizontal: 4, justifyContent: 'center'}}>
-        {measures.length
-        ? <ChordChart measures={measures} onUpdateChord={updateChord}/>
-        : <Text style={{textAlign: 'center'}}>Press 'Add bar' to get started</Text>}
-      </View>
-      <View style={{flexDirection: 'row', borderTopWidth: 1, padding: 8, gap: 8}}>
-        <TextButton title='Add bar' onPress={addBar}/>
-        <TextButton title='Remove bar' onPress={removeBar}/>
-      </View>
-    </View>
+    <SafeAreaProvider>
+      <SafeAreaView style={styles.container}>
+        <StatusBar style="auto" />
+        <View style={{flex: 1, marginHorizontal: 4, justifyContent: 'center'}}>
+          {measures.length
+          ? <ChordChart measures={measures} onUpdateChord={updateChord}/>
+          : <Text style={{textAlign: 'center'}}>Press 'Add bar' to get started</Text>}
+        </View>
+        <View style={{flexDirection: 'row', borderTopWidth: 1, padding: 8, gap: 8}}>
+          <TextButton title='Add bar' onPress={addBar}/>
+          <TextButton title='Remove bar' onPress={removeBar}/>
+        </View>
+      </SafeAreaView>
+    </SafeAreaProvider>
   );
 }
 
@@ -60,7 +63,6 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
     alignItems: 'stretch',
-    marginTop: 80,
   },
   text: {
     fontSize: 12

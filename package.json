@@ -24,7 +24,8 @@
     "react-native-web": "~0.19.10",
     "tiny-chords": "file:../../tiny-chords/npm/tiny-chords/tiny-chords-0.1.0.tgz",
     "typescript": "^5.3.3",
-    "zustand": "^4.5.0"
+    "zustand": "^4.5.0",
+    "react-native-safe-area-context": "4.8.2"
   },
   "devDependencies": {
     "@babel/core": "^7.23.9"
