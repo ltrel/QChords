@@ -1,9 +1,9 @@
 import * as React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import CameraScreen from './CameraScreen';
-import EditorScreen from './EditorScreen';
-import ExportScreen from './ExportScreen';
+import CameraScreen from './src/CameraScreen';
+import EditorScreen from './src/EditorScreen';
+import ExportScreen from './src/ExportScreen';
 
 const Stack = createNativeStackNavigator();
 
