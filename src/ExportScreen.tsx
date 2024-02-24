@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Text, View } from "react-native";
-import QRCode from 'react-native-qrcode-svg';
+import QRCode from "react-native-qrcode-svg";
 import { jsonToBin } from "tiny-chords/dist/nowasm";
 
 export default function ExportScreen({ route }) {
@@ -12,12 +12,23 @@ export default function ExportScreen({ route }) {
       setBinaryData(res);
     }
     f();
-  })
+  });
 
   return (
-    <View style={{flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: 'white'}}>
-      {/* @ts-ignore*/}
-      {binaryData ? <QRCode size={300} value={[{data: binaryData, mode: 'byte'}]}/> : <Text>Loading...</Text>}
+    <View
+      style={{
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
+        backgroundColor: "white",
+      }}
+    >
+      {binaryData ? (
+        // @ts-ignore
+        <QRCode size={300} value={[{ data: binaryData, mode: "byte" }]} />
+      ) : (
+        <Text>Loading...</Text>
+      )}
     </View>
-  )
+  );
 }

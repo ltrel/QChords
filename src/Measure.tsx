@@ -1,4 +1,11 @@
-import { View, Text, Pressable, StyleSheet, StyleProp, ViewStyle } from "react-native";
+import {
+  View,
+  Text,
+  Pressable,
+  StyleSheet,
+  StyleProp,
+  ViewStyle,
+} from "react-native";
 import ChordSymbol from "./ChordSymbol";
 import { Chord } from "./Chord";
 
@@ -7,26 +14,34 @@ export interface MeasureProps {
   highlightBeat?: number;
   onTouch?: (beatIndex) => void;
 }
-export default function Measure({ chords, highlightBeat = -1, onTouch }: MeasureProps) {
+export default function Measure({
+  chords,
+  highlightBeat = -1,
+  onTouch,
+}: MeasureProps) {
   function createBeatStyle(active, pressed): StyleProp<ViewStyle> {
     return {
-      display: 'flex',
+      display: "flex",
       minWidth: 35,
       flexGrow: 1,
-      backgroundColor: active || pressed ? '#dddddd' : undefined,
-    }
+      backgroundColor: active || pressed ? "#dddddd" : undefined,
+    };
   }
 
   const beats = chords.map((chord, i) => {
     return (
-      <Pressable key={i} style={({pressed}) => createBeatStyle(i === highlightBeat, pressed)} onPress={() => onTouch(i)}>
-        <ChordSymbol chord={chord}/>
-        <Text style={{fontSize: 32, marginTop: -10}}>𝄍</Text>
+      <Pressable
+        key={i}
+        style={({ pressed }) => createBeatStyle(i === highlightBeat, pressed)}
+        onPress={() => onTouch(i)}
+      >
+        <ChordSymbol chord={chord} />
+        <Text style={{ fontSize: 32, marginTop: -10 }}>𝄍</Text>
       </Pressable>
     );
-  })
+  });
 
-  return <View style={styles.measureContainer}>{beats}</View>
+  return <View style={styles.measureContainer}>{beats}</View>;
 }
 
 const styles = StyleSheet.create({
@@ -41,5 +56,5 @@ const styles = StyleSheet.create({
     marginLeft: -1,
     marginRight: -1,
     paddingHorizontal: 2,
-  }
-})
+  },
+});

@@ -3,35 +3,36 @@ export class Note {
   accidentalIndex: number;
 
   constructor(letterIndex, accidentalIndex) {
-    this.letterIndex = letterIndex
+    this.letterIndex = letterIndex;
     this.accidentalIndex = accidentalIndex;
   }
 
   static fromStr(noteStr: string): Note {
-    const letterIndex = noteStr.toUpperCase().charCodeAt(0) - 'A'.charCodeAt(0);
-    if (letterIndex < 0 || letterIndex > 6) throw new Error("Invalid note letter");
+    const letterIndex = noteStr.toUpperCase().charCodeAt(0) - "A".charCodeAt(0);
+    if (letterIndex < 0 || letterIndex > 6)
+      throw new Error("Invalid note letter");
 
     let accidentalIndex;
     if (noteStr.length == 1) accidentalIndex = 1;
-    else if (noteStr[1] == 'b') accidentalIndex = 0;
-    else if (noteStr[1] == '#') accidentalIndex = 2;
+    else if (noteStr[1] == "b") accidentalIndex = 0;
+    else if (noteStr[1] == "#") accidentalIndex = 2;
     else throw new Error("Invalid accidental");
 
     return new Note(letterIndex, accidentalIndex);
   }
 
   printLetter(): string {
-    return String.fromCharCode(this.letterIndex + 'A'.charCodeAt(0))
+    return String.fromCharCode(this.letterIndex + "A".charCodeAt(0));
   }
 
   printAccidental(): string {
     switch (this.accidentalIndex) {
       case 0:
-        return 'b';
+        return "b";
       case 1:
-        return '';
+        return "";
       case 2:
-        return '#';
+        return "#";
     }
   }
 
@@ -76,7 +77,7 @@ const chordTypes = [
   // add9
   "majadd9",
   "minadd9",
-]
+];
 
 const renderedChordTypes = [
   // short form
@@ -114,7 +115,7 @@ const renderedChordTypes = [
   // add9
   "add9",
   "madd9",
-]
+];
 
 export class Chord {
   root: Note;
