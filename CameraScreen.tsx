@@ -1,9 +1,11 @@
-import { View, Text, StyleSheet } from "react-native";
-import { Camera, useCameraDevice, useCameraPermission, useCodeScanner, useFrameProcessor } from "react-native-vision-camera";
-import {useAppState} from '@react-native-community/hooks'
+import { View, Text, StyleSheet, Button } from "react-native";
+import { Camera, runAsync, runAtTargetFps, useCameraDevice, useCameraFormat, useCameraPermission, useFrameProcessor } from "react-native-vision-camera";
 import { useIsFocused } from "@react-navigation/native";
-import jsQR from "jsqr";
 import { Worklets } from "react-native-worklets-core";
+import { scanCodes } from "react-native-vision-camera-binary-scanner";
+import { binToJson } from "tiny-chords/dist/nowasm";
+import { expand } from "./Serialization";
+import { useEditorStore } from "./EditorStore";
 
 function renderError(errorStr: string) {
   return (
@@ -12,44 +14,47 @@ function renderError(errorStr: string) {
     </View>
   )
 }
-export default function CameraScreen() {
-  const appState = useAppState();
+export default function CameraScreen({ navigation }) {
+  const loadChart = useEditorStore((state) => state.loadChart)
   const isFocused = useIsFocused();
-  const isActive = isFocused && appState == 'active';
 
-  // const { hasPermission, requestPermission } = useCameraPermission(); 
-  // if (!hasPermission || !requestPermission()) {
-  //   return renderError("Enable camera permissions to continue");
-  // }
+  const { hasPermission, requestPermission } = useCameraPermission(); 
   const device = useCameraDevice('back');
-  // if (device == null) return renderError('No camera device');
   
-  const wrapper = Worklets.createRunInJsFn((buffer: Uint8ClampedArray, width: number, height: number) => {
-    try {
-      const res = jsQR(buffer, width, height).binaryData
-      if (res) console.log(res)
-    }
-    catch {
-      console.log("read fail")
-    }
-  });
+  const codeScannedCallback = Worklets.createRunInJsFn(async (result: number[]) => {
+    const chart = await binToJson(new Uint8Array(result))
+    const measures = expand(chart);
+    loadChart(measures);
+    navigation.navigate('Editor');
+  })
 
   const frameProcessor = useFrameProcessor((frame) => {
     'worklet'
-    if (frame.pixelFormat === 'yuv' && frame.isValid) {
-      console.log(frame.toString())
-      const data = frame.toArrayBuffer()
-      console.log(`Pixel at 0,0: YUV(${data[0]}, ${data[1]}, ${data[2]})`)
-    }
-  }, [])
+
+    runAtTargetFps(1, () => {
+      'worklet'
+      if (frame.isValid) {
+        const buf = scanCodes(frame);
+        console.log(buf);
+        if (buf) codeScannedCallback(buf);
+      }
+    })
+  }, [codeScannedCallback])
+
+  if (!hasPermission || !requestPermission()) {
+    return renderError("Enable camera permissions to continue");
+  }
+  if (device == null) return renderError('No camera device');
 
   return (
-    <Camera
-      style={StyleSheet.absoluteFill}
-      device={device}
-      isActive={true}
-      pixelFormat="yuv"
-      frameProcessor={frameProcessor}
-    />
+    <View style={{flex: 1}}>
+      <Camera
+        style={{flexGrow: 1}}
+        device={device}
+        isActive={isFocused}
+        pixelFormat="yuv"
+        frameProcessor={frameProcessor}
+      />
+    </View>
   )
 }

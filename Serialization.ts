@@ -44,12 +44,12 @@ export function expand(serializedChart: SerializedChart): Chord[][] {
   const flatBeats: Chord[] = [];
   serializedChart.chords.forEach((serializedChord) => {
     flatBeats.push(new Chord(Note.fromStr(serializedChord.root), serializedChord.chordType));
-    flatBeats.push(...Array(serializedChord.beats).fill(null));
+    flatBeats.push(...Array(serializedChord.beats - 1).fill(null));
   });
 
   const measures: Chord[][] = [];
   flatBeats.forEach((beat, index) => {
-    if(index % 4 == 0) {
+    if(index % serializedChart.beatsPerBar == 0) {
       measures.push([])
     }
     measures[measures.length - 1].push(beat)

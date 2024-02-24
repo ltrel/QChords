@@ -41,19 +41,79 @@ export class Note {
 }
 
 const chordTypes = [
+  // short form
   "maj",
   "min",
   "maj7",
   "min7",
   "dom7",
+  // other triads
+  "dim",
+  "aug",
+  // other sevenths
+  "dim7",
+  "min7b5",
+  "maj7#5",
+  "aug7",
+  "minmaj7",
+  // sus
+  "sus4",
+  "sus2",
+  // sixths
+  "maj6",
+  "min6",
+  "maj69",
+  "min69",
+  // ninths
+  "maj9",
+  "min9",
+  "dom9",
+  // extended
+  "min11",
+  "maj7#11",
+  "dom13",
+  "alt",
+  // add9
+  "majadd9",
+  "minadd9",
 ]
 
 const renderedChordTypes = [
+  // short form
   "",
   "m",
   "Δ7",
   "m7",
-  "7"
+  "7",
+  // other triads
+  "dim",
+  "+",
+  // other sevenths
+  "dim7",
+  "m7b5",
+  "Δ7#5",
+  "+7",
+  "mΔ7",
+  // sus
+  "sus4",
+  "sus2",
+  // sixths
+  "6",
+  "m6",
+  "6/9",
+  "m6/9",
+  // ninths
+  "Δ9",
+  "m9",
+  "9",
+  // extended
+  "m11",
+  "Δ7#11",
+  "13",
+  "alt",
+  // add9
+  "add9",
+  "madd9",
 ]
 
 export class Chord {

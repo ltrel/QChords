@@ -1,0 +1,9 @@
+{
+  "name": "react-native-vision-camera-binary-scanner",
+  "version": "0.0.0",
+  "description": "Binary Scanner",
+  "main": "src/index",
+  "author": " <> ()",
+  "license": "UNLICENSED",
+  "homepage": "#readme"
+}
