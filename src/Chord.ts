@@ -90,8 +90,8 @@ const renderedChordTypes = [
   "dim",
   "+",
   // other sevenths
-  "dim7",
-  "m7b5",
+  "o7",
+  "ø7",
   "Δ7#5",
   "+7",
   "mΔ7",
