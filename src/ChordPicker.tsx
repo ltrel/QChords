@@ -1,9 +1,9 @@
 import { View, StyleSheet, Pressable, Platform } from "react-native";
 import { TextButton, SvgButton } from "./Button";
 import { useState } from "react";
-import NaturalSign from "./assets/NaturalSign.svg";
-import Sharp from "./assets/Sharp.svg";
-import Flat from "./assets/Flat.svg";
+import NaturalSign from "../assets/NaturalSign.svg";
+import Sharp from "../assets/Sharp.svg";
+import Flat from "../assets/Flat.svg";
 import { Chord, Note } from "./Chord";
 
 const chordTypes = [
