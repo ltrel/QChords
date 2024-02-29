@@ -1,7 +1,5 @@
 import { View, Text } from "react-native";
-import {
-  useCameraPermission,
-} from "react-native-vision-camera";
+import { useCameraPermission } from "react-native-vision-camera";
 import { binToJson } from "tiny-chords/dist/nowasm";
 import { expand } from "./Serialization";
 import { useEditorStore } from "./EditorStore";
@@ -33,7 +31,7 @@ export default function ImportScreen({ navigation }) {
 
   return (
     <View style={{ flex: 1 }}>
-      <CodeScanner onCodeScanned={handleCodeScanned}/>
+      <CodeScanner onCodeScanned={handleCodeScanned} />
     </View>
   );
 }

@@ -1,4 +1,9 @@
-import { Camera, useCameraDevice, useFrameProcessor, runAtTargetFps } from "react-native-vision-camera";
+import {
+  Camera,
+  useCameraDevice,
+  useFrameProcessor,
+  runAtTargetFps,
+} from "react-native-vision-camera";
 import { scanCodes } from "react-native-vision-camera-binary-scanner";
 import { useIsFocused } from "@react-navigation/native";
 import { Text } from "react-native";
@@ -7,7 +12,7 @@ import { Worklets } from "react-native-worklets-core";
 export interface CodeScannerProps {
   onCodeScanned: (result: number[]) => void;
 }
-export default function CodeScanner({onCodeScanned}: CodeScannerProps) {
+export default function CodeScanner({ onCodeScanned }: CodeScannerProps) {
   const device = useCameraDevice("back");
   const isFocused = useIsFocused();
 

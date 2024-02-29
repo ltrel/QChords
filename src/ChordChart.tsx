@@ -34,6 +34,7 @@ export default function ChordChart({
             flexWrap: "wrap",
             alignSelf: "stretch",
             rowGap: 10,
+            marginTop: 4,
             paddingHorizontal: 1,
           }}
         >

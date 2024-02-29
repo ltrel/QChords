@@ -10,48 +10,47 @@ export default function EditorScreen({ navigation }) {
   const state = useEditorStore();
 
   return (
-    <SafeAreaProvider>
-      <SafeAreaView style={styles.container}>
-        <StatusBar style="auto" />
-        <View
-          style={{ flex: 1, marginHorizontal: 4, justifyContent: "center" }}
-        >
-          {state.measures.length ? (
-            <ChordChart
-              measures={state.measures}
-              onUpdateChord={state.update}
-            />
-          ) : (
-            <Text style={{ textAlign: "center" }}>
-              Press 'Add bar' to get started
-            </Text>
-          )}
-        </View>
-        <View
-          style={{
-            flexDirection: "row",
-            borderTopWidth: 1,
-            padding: 8,
-            gap: 8,
-          }}
-        >
-          <TextButton title="Add bar" onPress={state.addMeasure} />
-          <TextButton title="Remove bar" onPress={state.removeMeasure} />
-          <TextButton
-            title="Export"
-            onPress={() =>
-              navigation.navigate("Export", {
-                serializedChart: collapseFromMeasures(state.measures, 4),
-              })
-            }
+    <View style={styles.container}>
+      <View
+        style={{ flex: 1, marginHorizontal: 4, justifyContent: "center" }}
+      >
+        {state.measures.length ? (
+          <ChordChart
+            measures={state.measures}
+            onUpdateChord={state.update}
           />
-          <TextButton
-            title="Import"
-            onPress={() => navigation.navigate("Import")}
-          />
-        </View>
-      </SafeAreaView>
-    </SafeAreaProvider>
+        ) : (
+          <Text style={{ textAlign: "center" }}>
+            Press 'Add bar' to get started
+          </Text>
+        )}
+      </View>
+      <View
+        style={{
+          flexDirection: "row",
+          borderTopWidth: 1,
+          padding: 8,
+          gap: 8,
+        }}
+      >
+        <TextButton pressableStyle={styles.toolbarItem} title="Add bar" onPress={state.addMeasure} />
+        <TextButton pressableStyle={styles.toolbarItem} title="Remove bar" onPress={state.removeMeasure} />
+        <TextButton
+          pressableStyle={styles.toolbarItem}
+          title="Export"
+          onPress={() =>
+            navigation.navigate("Export", {
+              serializedChart: collapseFromMeasures(state.measures, 4),
+            })
+          }
+        />
+        <TextButton
+          pressableStyle={styles.toolbarItem}
+          title="Import"
+          onPress={() => navigation.navigate("Import")}
+        />
+      </View>
+    </View>
   );
 }
 
@@ -64,4 +63,8 @@ const styles = StyleSheet.create({
   text: {
     fontSize: 12,
   },
+  toolbarItem: {
+    flexGrow: 1,
+    flex: 1,
+  }
 });
