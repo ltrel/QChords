@@ -47,7 +47,7 @@ export default function EditorScreen({ navigation }) {
           />
           <TextButton
             title="Import"
-            onPress={() => navigation.navigate("Camera")}
+            onPress={() => navigation.navigate("Import")}
           />
         </View>
       </SafeAreaView>

@@ -1,7 +1,7 @@
 import * as React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import CameraScreen from "./src/CameraScreen";
+import ImportScreen from "./src/ImportScreen";
 import EditorScreen from "./src/EditorScreen";
 import ExportScreen from "./src/ExportScreen";
 
@@ -13,7 +13,7 @@ export default function App() {
       <Stack.Navigator initialRouteName="Editor">
         <Stack.Screen name="Export" component={ExportScreen} />
         <Stack.Screen name="Editor" component={EditorScreen} />
-        <Stack.Screen name="Camera" component={CameraScreen} />
+        <Stack.Screen name="Import" component={ImportScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );
