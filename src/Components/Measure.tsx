@@ -7,7 +7,7 @@ import {
   ViewStyle,
 } from "react-native";
 import ChordSymbol from "./ChordSymbol";
-import { Chord } from "./Chord";
+import { Chord } from "../Data/Chord";
 
 export interface MeasureProps {
   chords: Chord[];

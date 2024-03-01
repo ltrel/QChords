@@ -1,10 +1,10 @@
 import { View } from "react-native";
 import { TextButton, SvgButton } from "./Button";
 import { useState } from "react";
-import NaturalSign from "../assets/NaturalSign.svg";
-import Sharp from "../assets/Sharp.svg";
-import Flat from "../assets/Flat.svg";
-import { Chord, Note } from "./Chord";
+import NaturalSign from "../../assets/NaturalSign.svg";
+import Sharp from "../../assets/Sharp.svg";
+import Flat from "../../assets/Flat.svg";
+import { Chord, Note } from "../Data/Chord";
 import Dialog from "./Dialog";
 
 const chordTypes = [

@@ -2,9 +2,9 @@ import * as React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { StatusBar } from "expo-status-bar";
-import ImportScreen from "./src/ImportScreen";
-import EditorScreen from "./src/EditorScreen";
-import ExportScreen from "./src/ExportScreen";
+import ImportScreen from "./src/Components/ImportScreen";
+import EditorScreen from "./src/Components/EditorScreen";
+import ExportScreen from "./src/Components/ExportScreen";
 
 const Stack = createNativeStackNavigator();
 

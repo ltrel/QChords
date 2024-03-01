@@ -1,8 +1,8 @@
 import { View, Text } from "react-native";
 import { useCameraPermission } from "react-native-vision-camera";
 import { binToJson } from "tiny-chords/dist/nowasm";
-import { expand } from "./Serialization";
-import { useEditorStore } from "./EditorStore";
+import { expand } from "../Data/Serialization";
+import { useEditorStore } from "../Data/EditorStore";
 import CodeScanner from "./CodeScanner";
 
 function renderError(errorStr: string) {

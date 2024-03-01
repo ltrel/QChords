@@ -1,8 +1,8 @@
 import { StyleSheet, View, Text, Modal } from "react-native";
 import ChordChart from "./ChordChart";
 import { TextButton } from "./Button";
-import { collapseFromMeasures } from "./Serialization";
-import { useEditorStore } from "./EditorStore";
+import { collapseFromMeasures } from "../Data/Serialization";
+import { useEditorStore } from "../Data/EditorStore";
 import SongSettings from "./SongSettings";
 import { useState } from "react";
 

@@ -2,7 +2,7 @@ import { View, Text } from "react-native";
 import Dialog from "./Dialog";
 import { TextButton } from "./Button";
 import { useState } from "react";
-import { useEditorStore } from "./EditorStore";
+import { useEditorStore } from "../Data/EditorStore";
 
 function clamp(val: number, min: number, max: number) {
   return Math.min(Math.max(val, min), max)

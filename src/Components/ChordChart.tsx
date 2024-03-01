@@ -1,6 +1,6 @@
 import { Modal, View, ScrollView } from "react-native";
 import Measure from "./Measure";
-import { Chord } from "./Chord";
+import { Chord } from "../Data/Chord";
 import { useState } from "react";
 import ChordPicker from "./ChordPicker";
 

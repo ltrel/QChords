@@ -1,5 +1,5 @@
 import { View, Text } from "react-native";
-import { Chord } from "./Chord";
+import { Chord } from "../Data/Chord";
 
 export interface ChordSymbolProps {
   chord?: Chord;
