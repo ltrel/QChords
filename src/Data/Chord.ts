@@ -41,7 +41,7 @@ export class Note {
   }
 }
 
-const chordTypes = [
+export const chordTypes = [
   // short form
   "maj",
   "min",
