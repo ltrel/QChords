@@ -18,11 +18,6 @@ export default function ChordChart({
 }: ChordChartProps) {
   const [selectedPos, setSelectedPos] = useState<[number, number]>(null);
 
-  function logChord(measureIndex, beatIndex) {
-    console.log(measures[measureIndex][beatIndex]);
-    setSelectedPos([measureIndex, beatIndex]);
-  }
-
   return (
     <>
       <ScrollView>
@@ -44,7 +39,7 @@ export default function ChordChart({
               <View style={{ flexGrow: 1 }} key={i}>
                 <Measure
                   chords={measure}
-                  onTouch={(beatIndex) => logChord(i, beatIndex)}
+                  onTouch={(beatIndex) => setSelectedPos([i, beatIndex])}
                   highlightBeat={
                     selectedPos && i === selectedPos[0]
                       ? selectedPos[1]

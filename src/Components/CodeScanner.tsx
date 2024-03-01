@@ -26,7 +26,6 @@ export default function CodeScanner({ onCodeScanned }: CodeScannerProps) {
         "worklet";
         if (frame.isValid) {
           const buf = scanCodes(frame);
-          console.log(buf);
           if (buf) callbackWorklet(buf);
         }
       });
