@@ -1,13 +1,14 @@
-import { StatusBar } from "expo-status-bar";
-import { StyleSheet, View, Text } from "react-native";
-import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
+import { StyleSheet, View, Text, Modal } from "react-native";
 import ChordChart from "./ChordChart";
 import { TextButton } from "./Button";
 import { collapseFromMeasures } from "./Serialization";
 import { useEditorStore } from "./EditorStore";
+import SongSettings from "./SongSettings";
+import { useState } from "react";
 
 export default function EditorScreen({ navigation }) {
   const state = useEditorStore();
+  const [showSongSettings, setShowSongSettings] = useState(false);
 
   return (
     <View style={styles.container}>
@@ -17,7 +18,7 @@ export default function EditorScreen({ navigation }) {
         {state.measures.length ? (
           <ChordChart
             measures={state.measures}
-            onUpdateChord={state.update}
+            onUpdateChord={state.updateChord}
           />
         ) : (
           <Text style={{ textAlign: "center" }}>
@@ -27,29 +28,50 @@ export default function EditorScreen({ navigation }) {
       </View>
       <View
         style={{
-          flexDirection: "row",
+          flexDirection: "column",
           borderTopWidth: 1,
           padding: 8,
           gap: 8,
         }}
       >
-        <TextButton pressableStyle={styles.toolbarItem} title="Add bar" onPress={state.addMeasure} />
-        <TextButton pressableStyle={styles.toolbarItem} title="Remove bar" onPress={state.removeMeasure} />
-        <TextButton
-          pressableStyle={styles.toolbarItem}
-          title="Export"
-          onPress={() =>
-            navigation.navigate("Export", {
-              serializedChart: collapseFromMeasures(state.measures, 4),
-            })
-          }
-        />
-        <TextButton
-          pressableStyle={styles.toolbarItem}
-          title="Import"
-          onPress={() => navigation.navigate("Import")}
-        />
+        <View style={{flexDirection: "row", gap: 8}}>
+          <TextButton pressableStyle={styles.toolbarItem} title="Add bar" onPress={state.addMeasure} />
+          <TextButton pressableStyle={styles.toolbarItem} title="Remove bar" onPress={state.removeMeasure} />
+        </View>
+        <View style={{flexDirection: "row", gap: 8}}>
+          <TextButton
+            pressableStyle={styles.toolbarItem}
+            title="Export"
+            onPress={() =>
+              navigation.navigate("Export", {
+                serializedChart: collapseFromMeasures(state.measures, state.beatsPerBar),
+              })
+            }
+          />
+          <TextButton
+            pressableStyle={styles.toolbarItem}
+            title="Import"
+            onPress={() => navigation.navigate("Import")}
+          />
+          <TextButton
+            pressableStyle={styles.toolbarItem}
+            title="Song settings"
+            onPress={() => setShowSongSettings(true)}
+          />
+        </View>
       </View>
+      <Modal
+        animationType="fade"
+        visible={showSongSettings}
+        transparent
+        onRequestClose={() => setShowSongSettings(false)}
+        statusBarTranslucent
+      >
+        <SongSettings
+          initialBeatsPerBar={state.beatsPerBar}
+          onCancel={() => setShowSongSettings(false)}
+        />
+      </Modal>
     </View>
   );
 }

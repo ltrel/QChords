@@ -20,7 +20,7 @@ export default function ImportScreen({ navigation }) {
   const handleCodeScanned = async (result: number[]) => {
     const chart = await binToJson(new Uint8Array(result));
     const measures = expand(chart);
-    loadChart(measures);
+    loadChart(measures, chart.beatsPerBar);
     navigation.navigate("Editor");
   };
 

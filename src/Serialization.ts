@@ -1,6 +1,6 @@
 import { Chord, Note } from "./Chord";
 
-interface SerializedChart {
+export interface SerializedChart {
   beatsPerBar: number;
   beatType: "half" | "quarter" | "eighth" | "sixteenth";
   bpm: number;
